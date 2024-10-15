@@ -2,12 +2,6 @@
 
 > Simple proof of concept with a publisher ([Symfony](https://symfony.com) application) and a subscriber (web page) communicating through [Mercure](https://mercure.rocks).
 
-<!-- TOC -->
-* [Installation](#installation)
-* [Publication](#publication)
-* [Subscription](#subscription)
-<!-- TOC -->
-
 ### Installation
 
 After cloning the repository, simply run:
