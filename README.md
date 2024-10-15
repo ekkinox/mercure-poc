@@ -1,6 +1,6 @@
 # Mercure PoC
 
-> Simple proof of concept shows how a publisher ([Symfony](https://symfony.com) application) and a subscriber (web page) can communicate through [Mercure](https://mercure.rocks).
+> Simple proof of concept with a publisher ([Symfony](https://symfony.com) application) and a subscriber (web page) communicating through [Mercure](https://mercure.rocks).
 
 <!-- TOC -->
 * [Installation](#installation)
