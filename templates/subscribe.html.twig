@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Mercure Subscriber</title>
+        <link rel="icon" type="image/jpg" href="#" />
+    </head>
+    <body>
+        <script>
+            const notificationsSource = new EventSource("{{ mercure('notifications/example', {'lastEventId': lastEventId})|escape('js') }}", {withCredentials: true});
+
+            notificationsSource.onmessage = event => {
+                console.log(JSON.parse(event.data));
+            }
+
+            window.addEventListener('beforeunload', function () {
+                if (notificationsSource != null) {
+                    notificationsSource.close();
+                }
+            });
+        </script>
+    </body>
+</html>

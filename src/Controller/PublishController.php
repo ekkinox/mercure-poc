@@ -10,16 +10,26 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PublishController extends AbstractController
 {
+    public function __construct(private readonly HubInterface $hub) {}
+
     #[Route('/publish', name: 'publish')]
-    public function publish(HubInterface $hub): Response
+    public function publish(): Response
     {
+        $time = hrtime(true);
+
+        $message = sprintf('test message id %s', $time);
+
         $update = new Update(
-            'https://example.com/books/1',
-            json_encode(['status' => 'OutOfStock'])
+            'notifications/example',
+            json_encode(['message' => $message]),
+            false,
+            $time
         );
 
-        $hub->publish($update);
+        $resp = $this->hub->publish($update);
 
-        return new Response('published!');
+        return new Response(
+            sprintf("Notification published with success.<br/>Message: %s<br/>Event ID: %s", $message, $resp)
+        );
     }
 }

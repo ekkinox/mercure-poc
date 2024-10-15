@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www
+    env_file:
+      - .env
 
   caddy:
     image: caddy:2-alpine
@@ -17,22 +19,29 @@ services:
       - 8080:80
     depends_on:
       - php
+    env_file:
+      - .env
 
   mercure:
     image: dunglas/mercure
     restart: unless-stopped
     environment:
       SERVER_NAME: ':80'
-      MERCURE_PUBLISHER_JWT_KEY: 'secret'
-      MERCURE_SUBSCRIBER_JWT_KEY: 'secret'
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeThisMercureHubJWTSecretKey!'
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins http://localhost:8080
+        anonymous
     healthcheck:
-      test: [ "CMD", "curl", "-f", "https://localhost/healthz" ]
+      test: [ "CMD", "curl", "-f", "http://localhost/healthz" ]
       timeout: 5s
       retries: 5
       start_period: 60s
     ports:
       - '80:80'
       - '443:443'
+    env_file:
+      - .env
     volumes:
       - mercure_data:/data
       - mercure_config:/config
